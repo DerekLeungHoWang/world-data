@@ -9,7 +9,7 @@ export const useData = () => {
 
   useEffect(() => {
     const row = d => {
-      console.log(d);
+      
       d.temperature = +d.temperature
       d.timestamp = new Date(d.timestamp)
 

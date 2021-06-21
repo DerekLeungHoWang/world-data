@@ -36,7 +36,7 @@ function BarChart() {
         .domain([0, d3.max(data, d => d.Population)])
         .range([0, innerWidth]);
 
-    console.log(yScale.domain());
+    
     return (
         <svg width={width} height={height}>
             <g transform={`translate(${margin.left},${margin.top})`}>
