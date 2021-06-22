@@ -14,10 +14,10 @@ function App() {
 
   return (
     <div>
-      <WorldMap />
-      <LineChart />
+      {/* <WorldMap />
+      <LineChart /> */}
       <ScatterPlot />
-      <BarChart />
+      {/* <BarChart /> */}
     </div>
   );
 }

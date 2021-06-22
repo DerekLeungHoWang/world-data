@@ -6,6 +6,7 @@ font-size: 7em;
 stroke: #C0C0BB;
 }
 .tick text {
+cursor: default;
 fill: #635F5D;
 }
 .mark {
@@ -14,4 +15,11 @@ fill: #137B80;
 .axis-label {
 font-size: 2.5em;
 fill: #635F5D;
+}
+label,
+select {
+  font-size: 1.5em;
+}
+select option {
+  font-size: 1.5rem;
 }
