@@ -28,9 +28,9 @@ function App() {
       {/* <WorldMap />
       <LineChart /> */}
       <ScatterPlotCountry data={dataScatter} />
-      <ScatterPlot />
+      {/* <ScatterPlot />
       <BarChart />
-      <BarChartLabourForce/>
+      <BarChartLabourForce/> */}
       
 
     </div>

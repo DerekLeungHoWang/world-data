@@ -26,7 +26,7 @@ const getLabel = value => {
 const menuHeight = 75;
 const width = 1090;
 const height = 500 - menuHeight;
-const margin = { top: 20, right: 220, bottom: 5, left: 100 };
+const margin = { top: 20, right: 280, bottom: 5, left: 100 };
 const innerHeight = height - margin.top - margin.bottom;
 const innerWidth = width - margin.left - margin.right;
 
@@ -48,7 +48,7 @@ function ScatterPlotCountry({ data }) {
 
   const [currentZoomState, setCurrentZoomState] = useState()
   const [hoveredValue, setHoveredValue] = useState(null)
-
+  const [hoveredCountry, setHoveredCountry] = useState({})
   const initialXAttribute = "Population"
   const [xAttribute, setXAttribute] = useState(initialXAttribute)
   const xValue = d => d[xAttribute];
@@ -83,7 +83,7 @@ function ScatterPlotCountry({ data }) {
 
   const colorScale = d3.scaleOrdinal()
     .domain(data.map(colorValue))
-    .range(['#003f5c', '#444e86', '#955196', '#dd5182', '#ff6e54', '#ffa600']);
+    .range(['#ef476f', '#6930c3', '#4ea8de', '#6d6875', '#2a9d8f', '#B649AA']);
 
 
   useEffect(() => {
@@ -116,6 +116,12 @@ function ScatterPlotCountry({ data }) {
 
 
   }, [currentZoomState])
+
+  const handleHover = (value) => {
+
+    console.log(value);
+    setHoveredCountry(value)
+  }
 
   return (
     <>
@@ -190,6 +196,7 @@ function ScatterPlotCountry({ data }) {
               colorValue={colorValue}
               tooltipFormat={xAxisTickFormat}
               circleRadius={circleRadius}
+              onHover={handleHover}
             />
           </g>
           <Marks
@@ -203,13 +210,41 @@ function ScatterPlotCountry({ data }) {
             colorValue={colorValue}
             tooltipFormat={xAxisTickFormat}
             circleRadius={circleRadius}
+            onHover={setHoveredCountry}
           />
         </g>
 
+        <g transform={`translate(${innerWidth + 130},${innerHeight - 165})`}>
+
+          <foreignObject x="20" y="0" width="300" height="160">
+            {/* <div className="scatterplot_country_Tooltip" >
+              <span>Country: {hoveredCountry.Country}</span>
+              <span>  {hoveredCountry.Continent}</span>
+              <span>  {hoveredCountry.GDP_GROWTH}</span>
+              <span> {hoveredCountry.GDP_NOMINAL}</span>
+              <span>{hoveredCountry.Population}</span>
+              <span> {hoveredCountry.Share}</span>
+            </div> */}
+            <table className="scatterplot_country_Tooltip">
 
 
+              <tbody  >
+                <tr><th scope="row">Country: </th><td>{hoveredCountry.Country}</td></tr>
+                <tr><th scope="row">Continent: </th><td>{hoveredCountry.Continent}</td></tr>
+                <tr><th scope="row">GDP: </th><td>{hoveredCountry.GDP_GROWTH}</td></tr>
+                <tr><th scope="row">GDP: </th><td>{hoveredCountry.GDP_NOMINAL}</td></tr>
+                <tr><th scope="row">Population: </th><td>{hoveredCountry.Population}</td></tr>
+                <tr><th scope="row">Share: </th><td>{hoveredCountry.Share}</td></tr>
+              </tbody>
 
-      </svg>
+            </table>
+          </foreignObject>
+
+
+        </g >
+
+
+      </svg >
 
       <label htmlFor="x-select" >X:</label>
       <Dropdown
