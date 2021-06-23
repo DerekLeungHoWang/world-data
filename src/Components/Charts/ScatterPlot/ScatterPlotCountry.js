@@ -9,12 +9,11 @@ import { useDataScatter } from './use-data-scatter';
 import { Dropdown } from './Dropdown';
 import { scaleOrdinal } from 'd3';
 import ColorLegend from './ColorLegend';
+import { useRef } from 'react';
 const attributes = [
-  { value: 'sepal_length', label: 'Sepal Length' },
-  { value: 'sepal_width', label: 'Sepal Width' },
-  { value: 'petal_length', label: 'Petal Length' },
-  { value: 'petal_width', label: 'Petal Width' },
-  { value: 'species', label: 'Species' }
+  { value: 'GDP_PER_CAPITA', label: 'GDP Per Capita' },
+  { value: 'Population', label: 'Population' },
+
 ];
 const getLabel = value => {
   for (let i = 0; i < attributes.length; i++) {
@@ -25,9 +24,9 @@ const getLabel = value => {
 };
 
 const menuHeight = 75;
-const width = 960;
+const width = 1090;
 const height = 500 - menuHeight;
-const margin = { top: 20, right: 20, bottom: 5, left: 90 };
+const margin = { top: 20, right: 220, bottom: 5, left: 100 };
 const innerHeight = height - margin.top - margin.bottom;
 const innerWidth = width - margin.left - margin.right;
 
@@ -36,59 +35,103 @@ const circleRadius = 6
 
 
 const xAxisLabelOffset = 50;
-const yAxisLabelOffset = 45;
+const yAxisLabelOffset = 75;
 const siFormat = d3.format('.2s');
 const xAxisTickFormat = tickValue => siFormat(tickValue).replace('G', 'B');
 
 
 
-function ScatterPlot() {
+function ScatterPlotCountry({ data }) {
 
-  const data = useDataScatter()
+  const svgRef = useRef()
+  const gRef = useRef()
 
+  const [currentZoomState, setCurrentZoomState] = useState()
   const [hoveredValue, setHoveredValue] = useState(null)
 
-  const initialXAttribute = "petal_length"
+  const initialXAttribute = "Population"
   const [xAttribute, setXAttribute] = useState(initialXAttribute)
   const xValue = d => d[xAttribute];
   const xAxisLabel = getLabel(xAttribute)
 
 
-  const initialYAttribute = 'sepal_width';
+  const initialYAttribute = 'GDP_PER_CAPITA';
   const [yAttribute, setYAttribute] = useState(initialYAttribute);
   const yValue = d => d[yAttribute];
   const yAxisLabel = getLabel(yAttribute)
 
-  const colorLegendLabel = "Species"
+  const colorLegendLabel = "Continents"
 
-  if (!data) {
-    return <pre>Loading...</pre>;
-  }
-  const colorValue = d => d.species;
+
+  const colorValue = d => d.Continent;
   const filteredData = data.filter(d => hoveredValue === colorValue(d))
 
   const xScale = d3.scaleLinear()
     .domain(d3.extent(data, xValue))
     .range([0, innerWidth])
     .nice()
+  if (currentZoomState) {
+    const newXScale = currentZoomState.rescaleX(xScale)
 
-  // .domain([d3.min(data, yValue), d3.max(data, xValue)])
+    xScale.domain(newXScale.domain()).nice()
+  }
   const yScale = d3.scaleLinear()
     .domain(d3.extent(data, yValue))
-    .range([0, innerHeight])
+    .range([innerHeight, 0])
     .nice()
 
-    console.log(yScale.domain());
+
   const colorScale = d3.scaleOrdinal()
     .domain(data.map(colorValue))
-    .range(['#E6842A', '#137B80', '#8E6C8A']);
+    .range(['#003f5c', '#444e86', '#955196', '#dd5182', '#ff6e54', '#ffa600']);
+
+
+  useEffect(() => {
+
+    const svg = d3.select(svgRef.current)
+
+
+
+    const zoom = d3.zoom()
+      .scaleExtent([1, 11155])
+
+      .translateExtent([
+        [0, 0],
+        [innerWidth, innerHeight]
+      ])
+      .on("zoom", (e) => {
+
+        const zoomState = d3.zoomTransform(svg.node())
+        zoomState.x = 0
+
+
+
+        setCurrentZoomState(zoomState)
+      })
+
+
+
+
+    svg.call(zoom, d3.zoomIdentity)
+
+
+  }, [currentZoomState])
 
   return (
     <>
 
 
-      <svg width={width} height={height}   viewBox="0 0 960 500">
-        <g transform={`translate(${margin.left},${margin.top})`}>
+      <svg ref={svgRef} width={width} height={height}
+        viewBox="0 0 960 500" overflow="hidden">
+        <clipPath id="binoculars">
+
+          <rect width={innerWidth} height={height} />
+        </clipPath>
+        <g
+
+          transform={`translate(${margin.left},${margin.top})`}
+        >
+
           <AxisBottom
             xScale={xScale}
             innerHeight={innerHeight}
@@ -115,7 +158,7 @@ function ScatterPlot() {
           </text>
 
 
-          <g transform={`translate(${innerWidth + 50})`}>
+          <g transform={`translate(${innerWidth + 70})`}>
             <text
               x={35}
               y={30}
@@ -133,7 +176,9 @@ function ScatterPlot() {
               hoveredValue={hoveredValue}
             />
           </g>
-          <g  opacity={hoveredValue?.2:1}>
+
+
+          <g clipPath="url(#binoculars)" opacity={hoveredValue ? .2 : 1}>
             <Marks
               data={data}
 
@@ -160,16 +205,20 @@ function ScatterPlot() {
             circleRadius={circleRadius}
           />
         </g>
+
+
+
+
       </svg>
 
-      <label for="x-select" >X:</label>
+      <label htmlFor="x-select" >X:</label>
       <Dropdown
         options={attributes}
         id="x-select"
         selectedValue={xAttribute}
         onSelectedValueChange={setXAttribute}
       />
-      <label for="y-select">Y:</label>
+      <label htmlFor="y-select">Y:</label>
       <Dropdown
         options={attributes}
         id="y-select"
@@ -180,4 +229,4 @@ function ScatterPlot() {
   );
 }
 
-export default ScatterPlot;
+export default ScatterPlotCountry;

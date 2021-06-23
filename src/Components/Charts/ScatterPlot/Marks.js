@@ -13,9 +13,12 @@ export const Marks = ({
   colorScale,
   colorValue,
   tooltipFormat,
-  circleRadius
-}) =>
-  data.map((d, i) => (
+  circleRadius,
+ 
+}) =>{
+
+ 
+  return   data.map((d, i) => (
     <circle
       key={i}
       className="scatterMarks"
@@ -30,4 +33,8 @@ export const Marks = ({
     >
       <title>{tooltipFormat(xValue(d))}</title>
     </circle>
-  ));
+  ))
+}
+
+  
+  ;

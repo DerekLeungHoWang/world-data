@@ -5,6 +5,10 @@ import ScatterPlot from './Components/FreeCodeCamp/ScatterPlot/ScatterPlot';
 import BarChart from './Components/FreeCodeCamp/BarChart/BarChart';
 import LineChart from './Components/FreeCodeCamp/LineChart/LineChart';
 import WorldMap from './Components/FreeCodeCamp/WorldMap/WorldMap';
+import BarChartLabourForce from './Components/Charts/BarChartLabourForce/BarChartLabourForce';
+import ScatterPlotCountry from './Components/Charts/ScatterPlot/ScatterPlotCountry';
+import { useDataScatter } from './Components/Charts/ScatterPlot/use-data-scatter';
+
 
 
 
@@ -12,12 +16,23 @@ import WorldMap from './Components/FreeCodeCamp/WorldMap/WorldMap';
 
 function App() {
 
+
+  const dataScatter = useDataScatter()
+
+  if (!dataScatter) {
+    return <pre>Loading...</pre>;
+  }
+
   return (
-    <div>
+    <div className="App" >
       {/* <WorldMap />
       <LineChart /> */}
+      <ScatterPlotCountry data={dataScatter} />
       <ScatterPlot />
-      {/* <BarChart /> */}
+      <BarChart />
+      <BarChartLabourForce/>
+      
+
     </div>
   );
 }

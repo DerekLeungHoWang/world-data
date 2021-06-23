@@ -14,6 +14,7 @@ export const Marks = ({
   }) =>
     data.map(d => (
       <rect
+     
         className="mark"
         key={yValue(d)}
         x={0}
