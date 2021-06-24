@@ -5,18 +5,17 @@ import * as d3 from 'd3';
 
 
 export const Marks = ({
-  data,
+  binnedData,
   xScale,
   yScale,
-  xValue,
-  yValue,
+  innerHeight,
   tooltipFormat,
-  circleRadius
+  // circleRadius
 }) => {
 
   return (
     <g className="lineChart_marks">
-      <path
+      {/* <path
         fill="none"
         stroke="black"
         d={d3.line()
@@ -24,18 +23,25 @@ export const Marks = ({
           .y(d => yScale(yValue(d)))
           .curve(d3.curveNatural)
           (data)
-        } />
-      {/* {data.map(d => (
-        <circle
+        } /> */}
+      {binnedData.map((d, i) => {
 
+        console.log(yScale(d.y));
 
-          cx={xScale(xValue(d))}
-          cy={yScale(yValue(d))}
-          r={circleRadius}
-        >
-          <title>{tooltipFormat(xValue(d))}</title>
-        </circle>
-      ))} */}
+        return (
+          <rect
+            key={i}
+
+            x={xScale(d.x0)}
+            y={yScale(d.y)}
+            width={xScale(d.x1) - xScale(d.x0)}
+            height={innerHeight - yScale(d.y)}
+          >
+            <title>{d.y}</title>
+          </rect>
+        )
+
+      })}
     </g>
 
 

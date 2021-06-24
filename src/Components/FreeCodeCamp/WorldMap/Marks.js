@@ -10,7 +10,10 @@ const graticule = geoGraticule();
 
 
 export const Marks = ({
-  data: { land, interiors },
+  worldAtlas: { land, interiors },
+  cities,
+  sizeScale,
+  sizeValue
 }) => {
 
   return (
@@ -18,12 +21,16 @@ export const Marks = ({
       <path className="sphere" d={path({ type: 'Sphere' })} />
       <path className="graticules" d={path(graticule())} />
       {land.features.map(feature => {
+        return <path key={feature} className="land" d={path(feature)} />
+      })}
+      {cities.map( (d,i) => {
 
-        console.log(feature);
-        return <path className="land" d={path(feature)} />
+        const [x, y] = projection([d.lng, d.lat]);
+        
+        return <circle key={i} cx={x} cy={y} r={sizeScale(sizeValue(d))} />
       })}
       <path className="interiors" d={path(interiors)} />
- 
+
     </g>
 
 
