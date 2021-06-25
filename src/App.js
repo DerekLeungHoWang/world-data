@@ -25,14 +25,16 @@ function App() {
 
   return (
     <div className="App" >
-
-      {/* <LineChart />  */}
-      {/* <ScatterPlotCountry data={dataScatter} /> */}
-      {/* <ScatterPlot />
-      <BarChart />
-      <BarChartLabourForce/> */}
-      <LineChart />
-      {/* <WorldMap /> */}
+      {/* <Grid container>
+        <LineChart />
+        <ScatterPlotCountry data={dataScatter} />
+        <ScatterPlot />
+        <BarChart />
+        <BarChartLabourForce />
+        <LineChart />
+        <WorldMap />
+      </Grid> */}
+      <Login />
     </div>
   );
 }
