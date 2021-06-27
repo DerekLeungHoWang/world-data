@@ -78,7 +78,7 @@ function ScatterPlot() {
     .range([0, innerHeight])
     .nice()
 
-    console.log(yScale.domain());
+    
   const colorScale = d3.scaleOrdinal()
     .domain(data.map(colorValue))
     .range(['#E6842A', '#137B80', '#8E6C8A']);

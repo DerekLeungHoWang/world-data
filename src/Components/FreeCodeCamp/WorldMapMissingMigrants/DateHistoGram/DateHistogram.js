@@ -1,81 +1,109 @@
-import React from 'react'
-import LineChart from '../../LineChart/LineChart'
-import * as d3 from 'd3'
-import { Marks } from './Marks';
+import {
+  scaleLinear,
+  scaleTime,
+  max,
+  timeFormat,
+  extent,
+  histogram as bin,
+  timeMonths,
+  sum,
+  brushX,
+  select,
+
+} from 'd3';
+import *as d3 from 'd3';
+import { useRef, useEffect, useMemo } from 'react';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
-
-
-
+import { Marks } from './Marks';
 
 const margin = { top: 0, right: 30, bottom: 20, left: 45 };
 const xAxisLabelOffset = 54;
 const yAxisLabelOffset = 30;
+const xAxisTickFormat = timeFormat('%m/%d/%Y');
 
-export default function DateHistorgram({ data, width, height }) {
+const xAxisLabel = 'Time';
 
+const yValue = d => d['Total Dead and Missing'];
+const yAxisLabel = 'Total Dead and Missing';
 
+export const DateHistogram = ({
+  data,
+  width,
+  height,
+  setBrushExtent,
+  xValue
+}) => {
   const innerHeight = height - margin.top - margin.bottom;
   const innerWidth = width - margin.left - margin.right;
-  const xValue = d => d['Reported Date']
-  const yValue = d => d['Total Dead and Missing']
 
-  const xAxisLabel = "Time"
-  const yAxisLabel = "Total Dead and Missing"
+  const xScale = useMemo(
+    () => {
+      
 
-  const xAxisTickFormat = d3.timeFormat('%m/%d/%Y');
+      return scaleTime()
+        .domain(extent(data, xValue))
+        .range([0, innerWidth])
+        .nice()
+    }
+    ,
+    [data, xValue, innerWidth]
+  );
 
-
-
-
-  const xScale = d3.scaleTime()
-    .domain(d3.extent(data, xValue))
-    .range([0, innerWidth])
-    .nice()
-
-  // .domain([d3.min(data, yValue), d3.max(data, xValue)])
-
-  const [start, stop] = xScale.domain()
-
-  const binnedData = d3.bin()
-    .value(xValue)
-    .domain(xScale.domain())
-    .thresholds(d3.timeMonths(start, stop))(data)
-    .map(array => {
-      return ({
-        y: d3.sum(array, yValue),
+  const binnedData = useMemo(() => {
+    
+    const [start, stop] = xScale.domain();
+    return d3.bin()
+      .value(xValue)
+      .domain(xScale.domain())
+      .thresholds(timeMonths(start, stop))(data)
+      .map(array => ({
+        y: sum(array, yValue),
         x0: array.x0,
         x1: array.x1
-      })
-    })
+      }));
+  }, [xValue, yValue, xScale, data]);
 
+  const yScale = useMemo(
+    () => {
+      
+    return  scaleLinear()
+        .domain([0, max(binnedData, d => d.y)])
+        .range([innerHeight, 0])
+    }
+    ,
+    [binnedData, innerHeight]
+  );
 
-  const yScale = d3.scaleLinear()
-    .domain([0, d3.max(binnedData, d => d.y)])
-    .range([innerHeight, 0])
-    .nice()
+  const brushRef = useRef();
 
+  useEffect(() => {
+    const brush = brushX().extent([[0, 0], [innerWidth, innerHeight]]);
+    brush(select(brushRef.current));
+    brush.on('brush end', (event) => {
+      setBrushExtent(event.selection && event.selection.map(xScale.invert));
+    });
+  }, [innerWidth, innerHeight]);
 
   return (
     <>
       <rect width={width} height={height} fill="white" />
       <g transform={`translate(${margin.left},${margin.top})`}>
-
         <AxisBottom
           xScale={xScale}
           innerHeight={innerHeight}
           tickFormat={xAxisTickFormat}
           tickOffset={5}
         />
-        <AxisLeft yScale={yScale} innerWidth={innerWidth} tickOffset={7} />
         <text
           className="axis-label"
-
           textAnchor="middle"
-          transform={`translate(${-yAxisLabelOffset},${innerHeight / 2}) rotate(-90)`}
+          transform={`translate(${-yAxisLabelOffset},${innerHeight /
+            2}) rotate(-90)`}
         >
           {yAxisLabel}
         </text>
+        <AxisLeft yScale={yScale} innerWidth={innerWidth} tickOffset={5} />
         <text
           className="axis-label"
           x={innerWidth / 2}
@@ -88,12 +116,13 @@ export default function DateHistorgram({ data, width, height }) {
           binnedData={binnedData}
           xScale={xScale}
           yScale={yScale}
-          innerHeight={innerHeight}
-          // tooltipFormat={xAxisTickFormat}
+          tooltipFormat={d => d}
           circleRadius={2}
+          innerHeight={innerHeight}
         />
+        <g ref={brushRef} />
       </g>
     </>
-
   );
-}
+};
+export default DateHistogram;

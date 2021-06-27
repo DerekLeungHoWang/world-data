@@ -10,6 +10,7 @@ import { Dropdown } from './Dropdown';
 import { scaleOrdinal } from 'd3';
 import ColorLegend from './ColorLegend';
 import { useRef } from 'react';
+import ToolBarSpace from '../../Drawer/ToolBarSpace';
 const attributes = [
   { value: 'GDP_PER_CAPITA', label: 'GDP Per Capita' },
   { value: 'Population', label: 'Population' },
@@ -124,9 +125,9 @@ function ScatterPlotCountry({ data }) {
   }
 
   return (
-    <>
+    <div>
 
-
+      <ToolBarSpace />
       <svg ref={svgRef} width={width} height={height}
         viewBox="0 0 960 500" overflow="hidden">
         <clipPath id="binoculars">
@@ -260,7 +261,7 @@ function ScatterPlotCountry({ data }) {
         selectedValue={yAttribute}
         onSelectedValueChange={setYAttribute}
       />
-    </>
+    </div>
   );
 }
 

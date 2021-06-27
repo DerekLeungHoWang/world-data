@@ -7,7 +7,7 @@ export default function Login() {
     const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect'
 
     const FACEBOOK_AUTH_URL = API_BASE_URL + '/oauth2/authorize/facebook?redirect_uri=' + OAUTH2_REDIRECT_URI;
-    console.log(FACEBOOK_AUTH_URL);
+    
     return (
         <div>
             <a href={FACEBOOK_AUTH_URL}>

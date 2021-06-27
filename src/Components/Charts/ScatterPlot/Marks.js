@@ -21,7 +21,7 @@ export const Marks = ({
   return data.map((d, i) => {
 
       let r =  d.GDP_PER_CAPITA/10000
-    console.log(r);
+    
     return (
       <circle
         key={i}

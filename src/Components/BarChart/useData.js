@@ -13,6 +13,7 @@ export const useData = () => {
       return d;
     };
     csv(csvUrl, row).then(data => {
+      console.log(data);
       setData(data.slice(0, 10));
     });
   }, []);

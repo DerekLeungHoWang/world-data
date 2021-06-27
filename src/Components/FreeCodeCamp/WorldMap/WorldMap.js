@@ -25,8 +25,8 @@ function WorldMap() {
     .domain([0, d3.max(cities, sizeValue)])
     .range([0, maxRadius])
 
-    console.log(d3.max(cities, sizeValue));
-    console.log(sizeValue(cities[0]));
+    
+    
 
   return (
     <svg width={width} height={height}>

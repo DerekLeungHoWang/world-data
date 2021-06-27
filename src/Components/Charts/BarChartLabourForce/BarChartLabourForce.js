@@ -6,6 +6,7 @@ import { Marks } from './Marks.js'
 import { useData } from './useData.js'
 import * as d3 from 'd3';
 import { Dropdown } from './Dropdown';
+import ToolBarSpace from '../../Drawer/ToolBarSpace';
 
 
 const attributes = [
@@ -51,7 +52,8 @@ function BarChartLabourForce() {
 
 
     return (
-        <>
+        <div>
+            <ToolBarSpace />
             <svg width={width} height={height}>
                 <g transform={`translate(${margin.left},${margin.top})`}>
                     <AxisBottom
@@ -87,7 +89,7 @@ function BarChartLabourForce() {
                 selectedValue={selectedValue}
                 onSelectedValueChange={setSelectedValue}
             />
-        </>
+        </div>
     );
 }
 

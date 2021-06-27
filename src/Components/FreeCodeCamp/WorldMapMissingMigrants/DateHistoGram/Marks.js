@@ -26,7 +26,7 @@ export const Marks = ({
         } /> */}
       {binnedData.map((d, i) => {
 
-        console.log(yScale(d.y));
+        
 
         return (
           <rect
