@@ -9,7 +9,9 @@ import BarChartLabourForce from './Components/Charts/BarChartLabourForce/BarChar
 import ScatterPlotCountry from './Components/Charts/ScatterPlot/ScatterPlotCountry';
 import { useDataScatter } from './Components/Charts/ScatterPlot/use-data-scatter';
 
-
+import Login from './Components/LoginPage/Login';
+import WorldMapMissingMigrants from './Components/FreeCodeCamp/WorldMapMissingMigrants/WorldMapMissingMigrants';
+ 
 
 
 
@@ -26,7 +28,6 @@ function App() {
   return (
     <div className="App" >
       {/* <Grid container>
-        <LineChart />
         <ScatterPlotCountry data={dataScatter} />
         <ScatterPlot />
         <BarChart />
@@ -34,7 +35,8 @@ function App() {
         <LineChart />
         <WorldMap />
       </Grid> */}
-      <Login />
+      <WorldMapMissingMigrants />
+      {/* <LineChart /> */}
     </div>
   );
 }

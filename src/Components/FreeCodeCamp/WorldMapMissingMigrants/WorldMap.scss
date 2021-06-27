@@ -1,0 +1,42 @@
+ 
+ 
+ 
+.worldMap_marks .land{
+ fill: #ececec;
+
+}
+
+.worldMap_marks .sphere{
+    fill:#fbfbfb;
+}
+
+.worldMap_marks .interiors{
+    fill:none;
+    stroke:#d9dfe0;
+}
+
+.worldMap_marks .graticules{
+    fill:none;
+    stroke:#ececec;
+}
+
+.worldMap_marks circle{
+    fill:#137B80;
+    opacity: .3;
+}
+
+.missingMigrants .axis-label {
+    font-size: .5em;
+    fill: #635F5D;
+}
+
+.missingMigrants .tick text  {
+    font-size: .5em;
+    fill: #635F5D;
+}
+.missingMigrants .tick line  {
+    fill:none;
+    stroke:#ececec;
+}
+
+ 
