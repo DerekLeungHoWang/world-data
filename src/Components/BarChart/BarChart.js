@@ -29,9 +29,11 @@ function BarChart() {
 
 
     return (
-        <div>
-            <ToolBarSpace/>
-            <DrawBarChart data={data} />
+        <div className="svg-container">
+            <ToolBarSpace />
+    
+                <DrawBarChart data={data} />
+          
         </div>
     )
 

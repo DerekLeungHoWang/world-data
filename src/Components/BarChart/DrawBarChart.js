@@ -28,7 +28,8 @@ function DrawBarChart({data}) {
 
     
     return (
-        <svg width={width} height={height}>
+        <svg        width="80%" height="80%"
+        viewBox={`0 0 ${width} ${height}`} >
             <g transform={`translate(${margin.left},${margin.top})`}>
                 <AxisBottom
                     xScale={xScale}

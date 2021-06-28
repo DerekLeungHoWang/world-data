@@ -15,14 +15,11 @@ fill: #137B80;
 font-size: 2.5em;
 fill: #635F5D;
 }
-*{
-  box-sizing: border-box;
-}
-
+ 
 .App{
 display: flex;
-
-
-
+ 
 }
-    
+.allChartContainer{
+    background-color: red;
+}

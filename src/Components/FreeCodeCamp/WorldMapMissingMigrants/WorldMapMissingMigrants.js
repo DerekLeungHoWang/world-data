@@ -23,14 +23,16 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
- 
+
 
   content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+
+
+
+
   },
 }));
-function WorldMapMissingMigrants() {
+function WorldMapMissingMigrants({size}) {
   const data = useData()
   const worldAtlas = useWorldAtlas()
   const classes = useStyles();
@@ -52,9 +54,13 @@ function WorldMapMissingMigrants() {
 
 
   return (
-    <main className={classes.content}  >
+    <div className="svg-container" >
       <ToolBarSpace />
-      <svg className="missingMigrants" width={width} height={height}>
+      <svg
+        className="missingMigrants"
+        width={`${size.width < 1200 ? 100 : 80}%`} height={`${size.width < 1200 ? 100 : 80}%`}
+        viewBox={`0 0 ${width} ${height}`}
+      >
         <BubbleMap worldAtlas={worldAtlas} data={data} filteredData={filteredData} />
         <g transform={`translate(0,${height - height * dateHistoGramSize})`}>
           <DateHistogram data={data} width={width} height={height * dateHistoGramSize}
@@ -62,8 +68,10 @@ function WorldMapMissingMigrants() {
             xValue={xValue}
           />
         </g>
+
       </svg>
-    </main>
+    </div>
+
 
 
 

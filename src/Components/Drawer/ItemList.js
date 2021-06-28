@@ -22,8 +22,12 @@ export const barChartList = [
 export const scatterPlotList = [
 
     {
-        text: "Petal And Sepal",
+        text: "GDP And Population",
         redirect_url: "/scatterPlot/1"
+    },
+    {
+        text: "Petal And Sepal",
+        redirect_url: "/scatterPlot/2"
     },
    
 ];

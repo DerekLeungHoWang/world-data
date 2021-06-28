@@ -9,6 +9,7 @@ import { useDataScatter } from './use-data-scatter';
 import { Dropdown } from './Dropdown';
 import { scaleOrdinal } from 'd3';
 import ColorLegend from './ColorLegend';
+import ToolBarSpace from '../../Drawer/ToolBarSpace';
 const attributes = [
   { value: 'sepal_length', label: 'Sepal Length' },
   { value: 'sepal_width', label: 'Sepal Width' },
@@ -78,16 +79,16 @@ function ScatterPlot() {
     .range([0, innerHeight])
     .nice()
 
-    
+
   const colorScale = d3.scaleOrdinal()
     .domain(data.map(colorValue))
     .range(['#E6842A', '#137B80', '#8E6C8A']);
 
   return (
-    <>
-
-
-      <svg width={width} height={height}   viewBox="0 0 960 500">
+    <div>
+      <ToolBarSpace />
+      <ToolBarSpace />
+      <svg width={width} height={height} viewBox="0 0 960 500">
         <g transform={`translate(${margin.left},${margin.top})`}>
           <AxisBottom
             xScale={xScale}
@@ -133,7 +134,7 @@ function ScatterPlot() {
               hoveredValue={hoveredValue}
             />
           </g>
-          <g  opacity={hoveredValue?.2:1}>
+          <g opacity={hoveredValue ? .2 : 1}>
             <Marks
               data={data}
 
@@ -162,21 +163,21 @@ function ScatterPlot() {
         </g>
       </svg>
 
-      <label for="x-select" >X:</label>
+      
       <Dropdown
         options={attributes}
         id="x-select"
         selectedValue={xAttribute}
         onSelectedValueChange={setXAttribute}
       />
-      <label for="y-select">Y:</label>
+  
       <Dropdown
         options={attributes}
         id="y-select"
         selectedValue={yAttribute}
         onSelectedValueChange={setYAttribute}
       />
-    </>
+    </div>
   );
 }
 

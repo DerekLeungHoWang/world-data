@@ -17,9 +17,7 @@ import { multipleViewList, barChartList ,scatterPlotList} from "./ItemList";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
-  drawerRoot: {
-    width: "300px"
-  },
+ 
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
@@ -33,10 +31,11 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
-  // necessary for content to be below app bar
+ 
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
-    width: 250,
+    width: drawerWidth,
+    height: "100vh"
   },
   content: {
     flexGrow: 1,
@@ -97,7 +96,9 @@ const CustomDrawer = ({ history, mobileOpen, setMobileOpen }) => {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           classes={{
+            root:classes.drawer,
             paper: classes.drawerPaper,
+     
           }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.
@@ -109,7 +110,7 @@ const CustomDrawer = ({ history, mobileOpen, setMobileOpen }) => {
       <Hidden xsDown implementation="css">
         <Drawer
           classes={{
-            root: classes.drawerRoot,
+            root: classes.drawer,
             paper: classes.drawerPaper,
           }}
           variant="permanent"

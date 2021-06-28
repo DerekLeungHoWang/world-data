@@ -20,18 +20,19 @@ const attributes = [
 
 
 
-const width = 960;
-const height = 500;
-const margin = { top: 20, right: 30, bottom: 65, left: 220 };
-const innerHeight = height - margin.top - margin.bottom;
-const innerWidth = width - margin.left - margin.right;
+
 const yValue = d => d.Country;
 const xValue = d => d.Population;
 const xAxisLabelOffset = 50;
 const siFormat = d3.format('.0s');
 const xAxisTickFormat = tickValue => siFormat(tickValue).replace('G', 'B');
 
-function BarChartLabourForce() {
+function BarChartLabourForce({ size }) {
+    const width = 960;
+    const height = 500;
+    const margin = { top: 20, right: 30, bottom: 65, left: 220 };
+    const innerHeight = height - margin.top - margin.bottom;
+    const innerWidth = width - margin.left - margin.right;
     const initialSelectedValue = 5;
     const [selectedValue, setSelectedValue] = useState(initialSelectedValue);
     const data = useData(selectedValue);
@@ -52,9 +53,18 @@ function BarChartLabourForce() {
 
 
     return (
-        <div>
+        <div className="svg-container" >
             <ToolBarSpace />
-            <svg width={width} height={height}>
+
+            <ToolBarSpace />
+            <svg
+
+                width={`${size.width < 1200 ? 100 : 80}%`} height={`${size.width < 1200 ? 100 : 80}%`}
+                viewBox={`0 0 ${width} ${height}`}
+
+
+
+            >
                 <g transform={`translate(${margin.left},${margin.top})`}>
                     <AxisBottom
                         xScale={xScale}
@@ -82,7 +92,6 @@ function BarChartLabourForce() {
                     />
                 </g>
             </svg>
-            <label htmlFor="y-select">Number of Rows:</label>
             <Dropdown
                 options={attributes}
                 id="number"
