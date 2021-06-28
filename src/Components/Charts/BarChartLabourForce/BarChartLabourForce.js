@@ -7,6 +7,7 @@ import { useData } from './useData.js'
 import * as d3 from 'd3';
 import { Dropdown } from './Dropdown';
 import ToolBarSpace from '../../Drawer/ToolBarSpace';
+import Tooltip from '../../Util/Common/Tooltip';
 
 
 const attributes = [
@@ -35,6 +36,7 @@ function BarChartLabourForce({ size }) {
     const innerWidth = width - margin.left - margin.right;
     const initialSelectedValue = 5;
     const [selectedValue, setSelectedValue] = useState(initialSelectedValue);
+    const [hoveredValue, setHoveredValue] = useState(null);
     const data = useData(selectedValue);
 
     if (!data) {
@@ -51,7 +53,10 @@ function BarChartLabourForce({ size }) {
         .range([0, innerWidth])
         .nice()
 
-
+    const handleHover=(d)=>{
+        console.log(d);
+        setHoveredValue(d)
+    }
     return (
         <div className="svg-container" >
             <ToolBarSpace />
@@ -81,7 +86,7 @@ function BarChartLabourForce({ size }) {
                         Labour Force
                     </text>
                     <Marks
-
+                        setHoveredValue={handleHover}
                         data={data}
                         xScale={xScale}
                         yScale={yScale}
@@ -98,6 +103,7 @@ function BarChartLabourForce({ size }) {
                 selectedValue={selectedValue}
                 onSelectedValueChange={setSelectedValue}
             />
+            <Tooltip />
         </div>
     );
 }

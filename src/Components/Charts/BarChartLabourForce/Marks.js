@@ -11,7 +11,8 @@ export const Marks = ({
   xValue,
   yValue,
   tooltipFormat,
-  selectedValue
+  selectedValue,
+  setHoveredValue
 }) => {
 
   const marks = useRef([])
@@ -19,13 +20,13 @@ export const Marks = ({
   const addTomarks = el => {
 
     if (el && !marks.current.includes(el)) {
-      
+
       marks.current.push(el);
     }
   };
   useEffect(() => {
 
-    
+
     gsap.from(marks.current, {
       duration: 1,
       stagger: 0.1,
@@ -33,25 +34,34 @@ export const Marks = ({
       ease: "Power3.easeInOut"
     });
     return () => {
-   
+
     }
 
   }, [selectedValue])
 
 
-  return data.map(d => (
-    <rect
-      ref={addTomarks}
-      className="mark"
-      key={yValue(d)}
-      x={0}
-      y={yScale(yValue(d))}
-      width={xScale(xValue(d))}
-      height={yScale.bandwidth()}
-    >
+  return data.map(d => {
+  
 
-    </rect>
-  ));
+    return (
+      <rect
+        ref={addTomarks}
+        className="mark"
+        key={yValue(d)}
+        x={0}
+        y={yScale(yValue(d))}
+        width={xScale(xValue(d))}
+        height={yScale.bandwidth()}
+        onMouseOver={(e) => {
+          setHoveredValue(d3.pointer(e))
+        }}
+      >
+
+      </rect>
+    )
+  }
+
+  );
 
 }
 
