@@ -16,6 +16,7 @@ import ScatterPlotCountry from "./Components/Charts/ScatterPlot/ScatterPlotCount
 import { useDataScatter } from "./Components/Charts/ScatterPlot/use-data-scatter";
 import ScatterPlot from './Components/FreeCodeCamp/ScatterPlot/ScatterPlot'
 import useWindowSize from "./Components/Util/Common/useWindowSize";
+import BubblePopulation from "./Components/Charts/BubbleChart/Population/BubblePopulation";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
 
@@ -50,9 +51,7 @@ export default function App() {
   }
   return (
     <div className="App">
-
-
-      <AppBar position="fixed" className={classes.appBar}>
+      <AppBar style={{ background: '#137B80' }} position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -63,7 +62,7 @@ export default function App() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap style={{ fontFamily: 'Segoe UI' }} >
             D3.js Charts Collection
           </Typography>
         </Toolbar>
@@ -76,6 +75,7 @@ export default function App() {
         <Route exact path="/barChart/2" render={props => <BarChartLabourForce size={size}  {...props} />} />
         <Route exact path="/scatterPlot/1" render={props => <ScatterPlotCountry data={chart_data_4}  {...props} />} />
         <Route exact path="/scatterPlot/2" render={props => <ScatterPlot data={chart_data_4}  {...props} />} />
+        <Route exact path="/bubbleChart/1" render={props => <BubblePopulation    {...props} />} />
       </Switch>
 
 

@@ -29,5 +29,14 @@ export const scatterPlotList = [
         text: "Petal And Sepal",
         redirect_url: "/scatterPlot/2"
     },
-   
+
+];
+export const bubbleChartList = [
+
+    {
+        text: "Population By Country",
+        redirect_url: "/bubbleChart/1"
+    },
+
+
 ];

@@ -6,11 +6,12 @@ import { Marks } from './Marks';
 
 import * as d3 from 'd3';
 import { useDataScatter } from './use-data-scatter';
-import { Dropdown } from './Dropdown';
+
 import { scaleOrdinal } from 'd3';
 import ColorLegend from './ColorLegend';
 import ToolBarSpace from '../../Drawer/ToolBarSpace';
 import { Grid, Paper } from '@material-ui/core';
+import DropdownGroup from './DropdownGroup';
 const attributes = [
   { value: 'sepal_length', label: 'Sepal Length' },
   { value: 'sepal_width', label: 'Sepal Width' },
@@ -168,24 +169,17 @@ function ScatterPlot() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-    
-        }}
-       
-        >
-        <Dropdown
-          options={attributes}
-          id="x-select"
-          selectedValue={xAttribute}
-          onSelectedValueChange={setXAttribute}
-          style={{}}
-        />
 
-        <Dropdown
-        
-          options={attributes}
-          id="y-select"
-          selectedValue={yAttribute}
-          onSelectedValueChange={setYAttribute}
+        }}
+
+      >
+        <DropdownGroup
+          attributes={attributes}
+          xAttribute={xAttribute}
+          setXAttribute={setXAttribute}
+          yAttribute={yAttribute}
+          setYAttribute={setYAttribute}
+
         />
       </div>
     </Paper>

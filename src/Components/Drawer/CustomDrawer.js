@@ -14,7 +14,7 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { withRouter } from "react-router-dom";
 import Hidden from '@material-ui/core/Hidden';
-import { multipleViewList, barChartList, scatterPlotList } from "./ItemList";
+import { multipleViewList, barChartList, scatterPlotList, bubbleChartList } from "./ItemList";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +60,10 @@ const chartItemList = [
   {
     category: "Scatter Plot",
     nameList: scatterPlotList
+  },
+  {
+    category: "Bubble Chart",
+    nameList: bubbleChartList
   },
 
 ]
