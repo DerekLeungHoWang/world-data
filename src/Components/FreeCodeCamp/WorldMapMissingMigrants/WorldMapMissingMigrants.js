@@ -12,6 +12,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { makeStyles } from '@material-ui/core/styles';
 import ToolBarSpace from '../../Drawer/ToolBarSpace';
+import { Paper } from '@material-ui/core';
 
 
 const width = 960;
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
   },
 }));
-function WorldMapMissingMigrants({size}) {
+function WorldMapMissingMigrants({ size }) {
   const data = useData()
   const worldAtlas = useWorldAtlas()
   const classes = useStyles();
@@ -54,8 +55,8 @@ function WorldMapMissingMigrants({size}) {
 
 
   return (
-    <div className="svg-container" >
-      <ToolBarSpace />
+    <Paper elevation={3} className="svg-container" >
+
       <svg
         className="missingMigrants"
         width={`${size.width < 1200 ? 100 : 80}%`} height={`${size.width < 1200 ? 100 : 80}%`}
@@ -70,7 +71,7 @@ function WorldMapMissingMigrants({size}) {
         </g>
 
       </svg>
-    </div>
+    </Paper>
 
 
 

@@ -10,6 +10,7 @@ import { Dropdown } from './Dropdown';
 import { scaleOrdinal } from 'd3';
 import ColorLegend from './ColorLegend';
 import ToolBarSpace from '../../Drawer/ToolBarSpace';
+import { Grid, Paper } from '@material-ui/core';
 const attributes = [
   { value: 'sepal_length', label: 'Sepal Length' },
   { value: 'sepal_width', label: 'Sepal Width' },
@@ -85,9 +86,7 @@ function ScatterPlot() {
     .range(['#E6842A', '#137B80', '#8E6C8A']);
 
   return (
-    <div>
-      <ToolBarSpace />
-      <ToolBarSpace />
+    <Paper elevation={3} className="svg-container" >
       <svg width={width} height={height} viewBox="0 0 960 500">
         <g transform={`translate(${margin.left},${margin.top})`}>
           <AxisBottom
@@ -163,21 +162,34 @@ function ScatterPlot() {
         </g>
       </svg>
 
-      
-      <Dropdown
-        options={attributes}
-        id="x-select"
-        selectedValue={xAttribute}
-        onSelectedValueChange={setXAttribute}
-      />
-  
-      <Dropdown
-        options={attributes}
-        id="y-select"
-        selectedValue={yAttribute}
-        onSelectedValueChange={setYAttribute}
-      />
-    </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+    
+        }}
+       
+        >
+        <Dropdown
+          options={attributes}
+          id="x-select"
+          selectedValue={xAttribute}
+          onSelectedValueChange={setXAttribute}
+          style={{}}
+        />
+
+        <Dropdown
+        
+          options={attributes}
+          id="y-select"
+          selectedValue={yAttribute}
+          onSelectedValueChange={setYAttribute}
+        />
+      </div>
+    </Paper>
+
   );
 }
 

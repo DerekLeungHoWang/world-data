@@ -11,6 +11,7 @@ import { scaleOrdinal } from 'd3';
 import ColorLegend from './ColorLegend';
 import { useRef } from 'react';
 import ToolBarSpace from '../../Drawer/ToolBarSpace';
+import { Paper } from '@material-ui/core';
 const attributes = [
   { value: 'GDP_PER_CAPITA', label: 'GDP Per Capita' },
   { value: 'Population', label: 'Population' },
@@ -120,14 +121,13 @@ function ScatterPlotCountry({ data }) {
 
   const handleHover = (value) => {
 
-    console.log(value);
+    
     setHoveredCountry(value)
   }
 
   return (
-    <div>
-
-      <ToolBarSpace />
+    <Paper elevation={3} className="svg-container">
+ 
       <svg ref={svgRef} width={width} height={height}
         viewBox="0 0 960 500" overflow="hidden">
         <clipPath id="binoculars">
@@ -247,7 +247,7 @@ function ScatterPlotCountry({ data }) {
 
       </svg >
 
-      <label htmlFor="x-select" >X:</label>
+      {/* <label htmlFor="x-select" >X:</label>
       <Dropdown
         options={attributes}
         id="x-select"
@@ -260,8 +260,8 @@ function ScatterPlotCountry({ data }) {
         id="y-select"
         selectedValue={yAttribute}
         onSelectedValueChange={setYAttribute}
-      />
-    </div>
+      /> */}
+    </Paper>
   );
 }
 

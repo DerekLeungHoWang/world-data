@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import DrawBarChart from './DrawBarChart';
 import { useData } from './useData';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -13,28 +13,37 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff',
     },
 }));
-function BarChart() {
+const initialSelectedValue = 5;
+function BarChart({ size }) {
+
+    const [selectedValue, setSelectedValue] = useState(initialSelectedValue);
     const classes = useStyles();
-    const data = useData();
+    const data = useData(selectedValue);
+
 
 
     if (!data) {
-        return <Backdrop className={classes.backdrop} open={true} >
-            <CircularProgress color="inherit" />
-        </Backdrop>
+        return <Backdrop className={classes.backdrop} open >
+            <CircularProgress />
+        </Backdrop>;
     }
 
 
 
+const handleSelectedValue=(d)=>{
 
+    setSelectedValue(d)
+}
 
     return (
-        <div className="svg-container">
-            <ToolBarSpace />
-    
-                <DrawBarChart data={data} />
-          
-        </div>
+
+        <DrawBarChart
+            size={size}
+            data={data}
+            selectedValue={selectedValue}
+            setSelectedValue={handleSelectedValue}
+        />
+
     )
 
 }

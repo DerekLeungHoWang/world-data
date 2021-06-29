@@ -6,18 +6,19 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
-  ListSubheader
+  ListSubheader,
+  Typography
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { withRouter } from "react-router-dom";
 import Hidden from '@material-ui/core/Hidden';
-import { multipleViewList, barChartList ,scatterPlotList} from "./ItemList";
+import { multipleViewList, barChartList, scatterPlotList } from "./ItemList";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
- 
+
   drawer: {
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
- 
+
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
@@ -41,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  listItemText: {
+    fontWeight: 900
+  }
 }));
 
 
@@ -55,9 +59,9 @@ const chartItemList = [
   },
   {
     category: "Scatter Plot",
-    nameList:  scatterPlotList
+    nameList: scatterPlotList
   },
- 
+
 ]
 
 const CustomDrawer = ({ history, mobileOpen, setMobileOpen }) => {
@@ -76,14 +80,23 @@ const CustomDrawer = ({ history, mobileOpen, setMobileOpen }) => {
     <>
       <div className={classes.toolbar} />
       <Divider />
-      {chartItemList.map(({ category, nameList }) => (<List subheader={<ListSubheader>{category}</ListSubheader>}>
+      {chartItemList.map(({ category, nameList }) => (<List key={category} subheader={<ListSubheader style={{ fontWeight: "600", }} >{category}</ListSubheader>}>
         {nameList.map(({ text, icon, redirect_url }, index) => (
-          <ListItem button key={text} onClick={() => history.push(redirect_url)}>
-            <ListItemText primary={text} />
+          <ListItem key={index} button key={text} onClick={() => history.push(redirect_url)}>
+            <ListItemText
+              disableTypography
+              primary={<Typography variant="body2"
+                style={{
+                  fontFamily: 'Segoe UI',
+
+                  color: '#646e73',
+
+                }}>{text}</Typography>} />
           </ListItem>
         )
         )}
-      </List>))}
+      </List>))
+      }
     </>)
   return (
 
@@ -96,9 +109,9 @@ const CustomDrawer = ({ history, mobileOpen, setMobileOpen }) => {
           open={mobileOpen}
           onClose={handleDrawerToggle}
           classes={{
-            root:classes.drawer,
+            root: classes.drawer,
             paper: classes.drawerPaper,
-     
+
           }}
           ModalProps={{
             keepMounted: true, // Better open performance on mobile.

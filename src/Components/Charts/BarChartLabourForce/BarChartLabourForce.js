@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './BarChart.scss';
 import { AxisBottom } from './AxisBottom.js'
 import { AxisLeft } from './AxisLeft.js'
@@ -8,6 +8,7 @@ import * as d3 from 'd3';
 import { Dropdown } from './Dropdown';
 import ToolBarSpace from '../../Drawer/ToolBarSpace';
 import Tooltip from '../../Util/Common/Tooltip';
+import { Paper } from '@material-ui/core';
 
 
 const attributes = [
@@ -20,13 +21,13 @@ const attributes = [
 
 
 
-
-
 const yValue = d => d.Country;
 const xValue = d => d.Population;
 const xAxisLabelOffset = 50;
 const siFormat = d3.format('.0s');
-const xAxisTickFormat = tickValue => siFormat(tickValue).replace('G', 'B');
+const tooltip_format = d3.format(',');
+const xAxisTickFormat = tickValue => siFormat(tickValue)
+const formatTooltip = tickValue => tooltip_format(tickValue)
 
 function BarChartLabourForce({ size }) {
     const width = 960;
@@ -35,14 +36,19 @@ function BarChartLabourForce({ size }) {
     const innerHeight = height - margin.top - margin.bottom;
     const innerWidth = width - margin.left - margin.right;
     const initialSelectedValue = 5;
-    const [selectedValue, setSelectedValue] = useState(initialSelectedValue);
+    const [mousePosition, setMousePosition] = useState(null);
     const [hoveredValue, setHoveredValue] = useState(null);
+    const [selectedValue, setSelectedValue] = useState(initialSelectedValue);
+ 
     const data = useData(selectedValue);
 
+    const handleMouseMove = useCallback(event => {
+        const { clientX, clientY } = event;
+        setMousePosition({ x: clientX, y: clientY });
+    }, [setMousePosition]);
     if (!data) {
         return <pre> </pre>;
     }
-
 
     const yScale = d3.scaleBand()
         .domain(data.map(d => d.Country))
@@ -53,22 +59,15 @@ function BarChartLabourForce({ size }) {
         .range([0, innerWidth])
         .nice()
 
-    const handleHover=(d)=>{
-        console.log(d);
+    const handleHover = (d) => {
         setHoveredValue(d)
     }
+
     return (
-        <div className="svg-container" >
-            <ToolBarSpace />
-
-            <ToolBarSpace />
+        <Paper elevation={3} className="svg-container" >
             <svg
-
                 width={`${size.width < 1200 ? 100 : 80}%`} height={`${size.width < 1200 ? 100 : 80}%`}
                 viewBox={`0 0 ${width} ${height}`}
-
-
-
             >
                 <g transform={`translate(${margin.left},${margin.top})`}>
                     <AxisBottom
@@ -87,6 +86,7 @@ function BarChartLabourForce({ size }) {
                     </text>
                     <Marks
                         setHoveredValue={handleHover}
+                        setMousePosition={handleMouseMove}
                         data={data}
                         xScale={xScale}
                         yScale={yScale}
@@ -102,9 +102,16 @@ function BarChartLabourForce({ size }) {
                 id="number"
                 selectedValue={selectedValue}
                 onSelectedValueChange={setSelectedValue}
+
             />
-            <Tooltip />
-        </div>
+            <Tooltip
+                hoveredValue={hoveredValue}
+                mousePosition={mousePosition}
+                yScale={yScale}
+                yValue={yValue}
+                formatTooltip={formatTooltip}
+            />
+        </Paper>
     );
 }
 

@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import * as d3 from 'd3';
 import gsap from 'gsap'
+import useBarChartAnimation from '../../Animation/useBarChartAnimation';
 
 export const Marks = ({
   data,
@@ -12,36 +13,16 @@ export const Marks = ({
   yValue,
   tooltipFormat,
   selectedValue,
+  setMousePosition,
   setHoveredValue
 }) => {
 
   const marks = useRef([])
-  marks.current = [];
-  const addTomarks = el => {
-
-    if (el && !marks.current.includes(el)) {
-
-      marks.current.push(el);
-    }
-  };
-  useEffect(() => {
-
-
-    gsap.from(marks.current, {
-      duration: 1,
-      stagger: 0.1,
-      width: 0,
-      ease: "Power3.easeInOut"
-    });
-    return () => {
-
-    }
-
-  }, [selectedValue])
+  const addTomarks = useBarChartAnimation(marks)
 
 
   return data.map(d => {
-  
+
 
     return (
       <rect
@@ -52,9 +33,16 @@ export const Marks = ({
         y={yScale(yValue(d))}
         width={xScale(xValue(d))}
         height={yScale.bandwidth()}
-        onMouseOver={(e) => {
-          setHoveredValue(d3.pointer(e))
+        onMouseMove={(e) => {
+          setHoveredValue(xValue(d))
+          setMousePosition(e)
+
         }}
+        onMouseOut={(e) => {
+          setHoveredValue(null)
+        }}
+
+
       >
 
       </rect>

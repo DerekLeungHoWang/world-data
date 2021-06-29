@@ -37,6 +37,8 @@ export default function App() {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const size = useWindowSize();
+
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -69,8 +71,8 @@ export default function App() {
       <CustomDrawer setMobileOpen={setMobileOpen} mobileOpen={mobileOpen} />
 
       <Switch>
-        <Route exact from="/" render={props => <WorldMapMissingMigrants size={size} {...props} />} />
-        <Route exact path="/barChart/1" render={props => <BarChart   {...props} />} />
+        <Route exact path="/" render={props => <WorldMapMissingMigrants size={size} {...props} />} />
+        <Route exact path="/barChart/1" render={props => <BarChart size={size}  {...props} />} />
         <Route exact path="/barChart/2" render={props => <BarChartLabourForce size={size}  {...props} />} />
         <Route exact path="/scatterPlot/1" render={props => <ScatterPlotCountry data={chart_data_4}  {...props} />} />
         <Route exact path="/scatterPlot/2" render={props => <ScatterPlot data={chart_data_4}  {...props} />} />
